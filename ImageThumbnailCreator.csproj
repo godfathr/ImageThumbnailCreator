@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <Authors>Mikal Grant</Authors>
+    <Description>Create image thumbnails from uploaded image files to help downsize large resolution images that need to be displayed on your website in a smaller resolution.</Description>
+    <PackageTags>Thumbnail, Image Processor, Picture, Resize</PackageTags>
+    <Product>ThumbnailCreator</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>
