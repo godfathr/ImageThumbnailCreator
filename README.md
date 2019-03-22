@@ -1,4 +1,6 @@
 # ImageThumbnailCreator
 Create image thumbnails from uploaded image files to help downsize large resolution images that need to be displayed on your website in a smaller resolution.
 
-If desired, methods to save images and their thumbnail to the file system are available.
+Excellent addition for custom blog sites or any kind of site that allows image files to be uploaded. You can downsize uploaded images as well as keep the original image if you want!
+
+Images and their thumbnails will be saved to the file system.
