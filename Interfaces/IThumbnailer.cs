@@ -7,7 +7,7 @@ namespace ImageThumbnailCreator.Interfaces
 {
     public interface IThumbnailer
     {
-        Bitmap Create(float width, string imageFolder, string fullImagePath);
+        string Create(float width, string imageFolder, string fullImagePath);
 
         RotateFlipType OrientUpright(List<int> propertyIdList, Image srcImage);
 

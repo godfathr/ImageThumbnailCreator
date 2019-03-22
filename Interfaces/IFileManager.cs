@@ -13,6 +13,6 @@ namespace ImageThumbnailCreator.Interfaces
 
         string SaveOriginal(string imageFolder, HttpPostedFileBase photo); //the photo should be an HttpPostedFileBase
 
-        void SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName);
+        string SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName);
     }
 }

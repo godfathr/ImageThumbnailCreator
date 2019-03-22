@@ -36,7 +36,7 @@ namespace ImageThumbnailCreator
         /// <param name="imageFolder"></param>
         /// <param name="fullImagePath"></param>
         /// <returns></returns>
-        public Bitmap Create(float width, string imageFolder, string fullImagePath)
+        public string Create(float width, string imageFolder, string fullImagePath)
         {
             Bitmap thumbnail;
 
@@ -49,10 +49,6 @@ namespace ImageThumbnailCreator
                 //Image image = Image.FromFile(imageFolder + fileName);
                 float imageWidth = srcImage.Width;
                 float imageHeight = srcImage.Height;
-
-                //int exifOrientationID = 0x112;
-
-                //PropertyItem prop = null;
 
                 var propertyIdList = srcImage.PropertyIdList.ToList();
 
@@ -84,14 +80,15 @@ namespace ImageThumbnailCreator
 
                 thumbnail.RotateFlip(rotationFlipType);
 
-                SaveThumbnail(thumbnail, imageFolder, thumbnailFileName);
+                //Only save the thumbnail to the file system if desired. Otherwise just return the thumbnail.
+                string thumbPath = SaveThumbnail(thumbnail, imageFolder, thumbnailFileName);
 
                 //clean up
                 srcImage.Dispose();
                 thumbnail.Dispose();
                 graphics.Dispose();
 
-                return thumbnail;
+                return thumbPath;
             }
             catch (Exception ex)
             {
@@ -181,13 +178,15 @@ namespace ImageThumbnailCreator
         /// <param name="thumbnail"></param>
         /// <param name="imagePath"></param>
         /// <param name="thumbnailFileName"></param>
-        public void SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName)
+        public string SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName)
         {
             try
             {
-                thumbnail.Save(Path.Combine(imagePath, $"thumb_{thumbnailFileName}"));
+                string thumbPath = Path.Combine(imagePath, $"thumb_{thumbnailFileName}");
+                thumbnail.Save(thumbPath);
+                return thumbPath;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -228,7 +227,7 @@ namespace ImageThumbnailCreator
 
                 return response;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
