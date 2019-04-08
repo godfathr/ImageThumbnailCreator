@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageThumbnailCreator", "ImageThumbnailCreator\ImageThumbnailCreator.csproj", "{28E07A03-8C53-4D15-89EC-B1184F72A09A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28E07A03-8C53-4D15-89EC-B1184F72A09A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28E07A03-8C53-4D15-89EC-B1184F72A09A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28E07A03-8C53-4D15-89EC-B1184F72A09A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28E07A03-8C53-4D15-89EC-B1184F72A09A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2EBE5B6D-6A73-4ABE-9A02-22EAE0D1A66D}
+	EndGlobalSection
+EndGlobal
