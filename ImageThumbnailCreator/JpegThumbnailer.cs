@@ -58,7 +58,11 @@ namespace ImageThumbnailCreator
                 float imageWidth = srcImage.Width;
                 float imageHeight = srcImage.Height;
 
-                var propertyIdList = srcImage.PropertyIdList.ToList();
+                List<int> propertyIdList = new List<int>();
+                if (srcImage.PropertyIdList != null)
+                {
+                    propertyIdList = srcImage.PropertyIdList.ToList();
+                }
 
                 RotateFlipType rotationFlipType = OrientUpright(propertyIdList, srcImage);
 
@@ -153,7 +157,7 @@ namespace ImageThumbnailCreator
         /// <returns></returns>
         public RotateFlipType OrientUpright(List<int> propertyIdList, Image srcImage)
         {
-            if (propertyIdList.Count > 1) throw new ArgumentNullException(nameof(propertyIdList));
+            if (propertyIdList.Count < 1) throw new ArgumentNullException(nameof(propertyIdList));
             if (srcImage == null) throw new ArgumentNullException(nameof(srcImage));
 
             try
