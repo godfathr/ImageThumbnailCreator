@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <Authors>Mikal Grant</Authors>
+    <Description>Create image thumbnails from uploaded image files to help downsize large resolution images that need to be displayed on your website in a smaller resolution.</Description>
+    <PackageTags>Thumbnail, Image Processor, Picture, Resize, Image Resize, .NET, C#</PackageTags>
+    <Product>ThumbnailCreator</Product>
+    <Version>1.0.1</Version>
+    <PackageProjectUrl>https://github.com/godfathr/ImageThumbnailCreator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/godfathr/ImageThumbnailCreator</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://github.com/godfathr/ImageThumbnailCreator/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>
