@@ -11,6 +11,8 @@ using System.Web;
 
 namespace ImageThumbnailCreator
 {
+    //TODO: Move repo up one directory so test project can be added https://stackoverflow.com/questions/32082366/move-git-repo-to-parent-directory/32083144
+    //TODO: Convert to use .NET Standard https://stackoverflow.com/questions/46722409/cannot-find-bitmap-class-in-class-library-net-standard
     public class JpegThumbnailer : IFileManager, IThumbnailer
     {
         /// <summary>
@@ -25,7 +27,7 @@ namespace ImageThumbnailCreator
             }
             catch (Exception ex)
             {
-                throw;
+                throw new IOException(ex.Message);
             }
         }
 
@@ -38,6 +40,12 @@ namespace ImageThumbnailCreator
         /// <returns></returns>
         public string Create(float width, string imageFolder, string fullImagePath)
         {
+            //TODO: finish these parameter checks
+            if (width < 1) throw new ArgumentException($"The width parameter must be greater than 0.");
+            if (string.IsNullOrEmpty(imageFolder)) throw new ArgumentNullException(nameof(imageFolder));
+            if (string.IsNullOrEmpty(fullImagePath)) throw new ArgumentNullException(nameof(fullImagePath));
+
+
             Bitmap thumbnail;
 
             try
@@ -92,7 +100,7 @@ namespace ImageThumbnailCreator
             }
             catch (Exception ex)
             {
-                throw;
+                return ex.Message;
             }
         }
 
@@ -106,26 +114,35 @@ namespace ImageThumbnailCreator
         /// <returns></returns>
         public Tuple<float, float> SetDimensions(float width, ref float imageWidth, ref float imageHeight)
         {
-            //compute the thumbnail height
-            if (imageWidth > imageHeight)
-            {
-                //landscape images
-                imageHeight = imageHeight * ((width / imageWidth));
-                imageWidth = width;
-            }
-            else if (imageWidth < imageHeight)
-            {
-                //portrait images
-                imageHeight = imageHeight * ((width / imageWidth));
-                imageWidth = width;
-            }
-            else
-            {
-                imageHeight = width;
-                imageWidth = width;
-            }
+            if (width < 1) throw new ArgumentException($"The width parameter must be greater than 0.");
 
-            return new Tuple<float, float>(imageHeight, imageWidth);
+            try
+            {
+                //compute the thumbnail height
+                if (imageWidth > imageHeight)
+                {
+                    //landscape images
+                    imageHeight = imageHeight * ((width / imageWidth));
+                    imageWidth = width;
+                }
+                else if (imageWidth < imageHeight)
+                {
+                    //portrait images
+                    imageHeight = imageHeight * ((width / imageWidth));
+                    imageWidth = width;
+                }
+                else
+                {
+                    imageHeight = width;
+                    imageWidth = width;
+                }
+
+                return new Tuple<float, float>(imageHeight, imageWidth);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         /// <summary>
@@ -136,6 +153,9 @@ namespace ImageThumbnailCreator
         /// <returns></returns>
         public RotateFlipType OrientUpright(List<int> propertyIdList, Image srcImage)
         {
+            if (propertyIdList.Count > 1) throw new ArgumentNullException(nameof(propertyIdList));
+            if (srcImage == null) throw new ArgumentNullException(nameof(srcImage));
+
             try
             {
                 int exifOrientationID = 0x112;
@@ -168,7 +188,7 @@ namespace ImageThumbnailCreator
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -180,6 +200,10 @@ namespace ImageThumbnailCreator
         /// <param name="thumbnailFileName"></param>
         public string SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName)
         {
+            if (thumbnail == null) throw new ArgumentNullException(nameof(thumbnail));
+            if (string.IsNullOrEmpty(imagePath)) throw new ArgumentNullException(nameof(imagePath));
+            if (string.IsNullOrEmpty(thumbnailFileName)) throw new ArgumentNullException(nameof(thumbnailFileName));
+
             try
             {
                 string thumbPath = Path.Combine(imagePath, $"thumb_{thumbnailFileName}");
@@ -188,7 +212,7 @@ namespace ImageThumbnailCreator
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -229,7 +253,7 @@ namespace ImageThumbnailCreator
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
         }
     }
