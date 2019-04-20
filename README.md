@@ -6,3 +6,8 @@ Excellent addition for custom blog sites or any kind of site that allows image f
 Images and their thumbnails will be saved to the file system.
 
 Example MVC application is located at https://github.com/godfathr/ThumbnailWebExample
+
+#Version 1.0.2 Updates
+Added unit tests.
+
+Added parameter checking with meaningful exceptions.
