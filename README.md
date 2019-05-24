@@ -3,9 +3,16 @@ Create image thumbnails from uploaded image files to help downsize large resolut
 
 Excellent addition for custom blog sites or any kind of site that allows image files to be uploaded. You can downsize uploaded images as well as keep the original image if you want!
 
-Images and their thumbnails will be saved to the file system.
+*Original uploaded images can be saved to the file system. 
+*Thumbnails will be saved to the file system automatically.
 
 Example MVC application is located at https://github.com/godfathr/ThumbnailWebExample
+
+#Version 2.0.0 Updates
+Added tests for PNG, GIF, TIF and BMP image formats. 
+Added validation that prevents upsizing. 
+Removed validation that would break the resizing if the property list had 0 items.
+Renamed "JpegThumbnailer" to "Thumbnailer".
 
 #Version 1.0.2 Updates
 Added unit tests.
