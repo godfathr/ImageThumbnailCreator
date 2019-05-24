@@ -11,14 +11,14 @@ namespace ImageThumbnailCreator.Tests
     [TestClass]
     public class JpegThumbnailerUnitTests
     {
-        private JpegThumbnailer _jpegThumbnailer = new JpegThumbnailer();
+        private Thumbnailer _thumbnailer = new Thumbnailer();
         private string ThumbnailFolder = ConfigurationSettings.AppSettings["TestDirectory"];
 
         [TestInitialize]
         public void Setup()
         {
             //TODO: Add any setup steps here
-            _jpegThumbnailer.CheckAndCreateDirectory(ThumbnailFolder);
+            _thumbnailer.CheckAndCreateDirectory(ThumbnailFolder);
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace ImageThumbnailCreator.Tests
             string originalFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestImages\largeLandscape.jpg");
 
             //act
-            _jpegThumbnailer.Create(100, ThumbnailFolder, originalFileLocation);
+            _thumbnailer.Create(100, ThumbnailFolder, originalFileLocation);
 
             string[] images = Directory.GetFiles(ThumbnailFolder);
 
@@ -56,7 +56,7 @@ namespace ImageThumbnailCreator.Tests
             string originalFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestImages\largePortrait.jpg");
 
             //act
-            _jpegThumbnailer.Create(100, ThumbnailFolder, originalFileLocation);
+            _thumbnailer.Create(100, ThumbnailFolder, originalFileLocation);
 
             string[] images = Directory.GetFiles(ThumbnailFolder);
 
@@ -72,13 +72,29 @@ namespace ImageThumbnailCreator.Tests
             string originalFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestImages\largeSquare.jpg");
 
             //act
-            _jpegThumbnailer.Create(100, ThumbnailFolder, originalFileLocation);
+            _thumbnailer.Create(100, ThumbnailFolder, originalFileLocation);
 
             string[] images = Directory.GetFiles(ThumbnailFolder);
 
             //assert
             Assert.IsTrue(images.Length == 1);
             Assert.AreEqual(images.Length, 1);
+        }
+
+        [TestMethod]
+        public void Create_WidthGreaterThanOriginal_ReturnsWidthGreaterThanOriginalException()
+        {
+            //setup
+            string originalFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestImages\largeLandscape.jpg");
+
+            //act
+            string expectedResponse = _thumbnailer.Create(2000, ThumbnailFolder, originalFileLocation);
+            string[] images = Directory.GetFiles(ThumbnailFolder);
+
+            //assert
+            Assert.IsTrue(images.Length == 0);
+            Assert.AreEqual(images.Length, 0);
+            Assert.AreEqual("Thumbnail width can not be greater than the original image width.", expectedResponse);
         }
 
         [TestMethod]
@@ -90,7 +106,7 @@ namespace ImageThumbnailCreator.Tests
             float imageHeight = 500;
 
             //act
-            Tuple<float, float> calculatedDimensions = _jpegThumbnailer.SetDimensions(width, ref imageWidth, ref imageHeight);
+            Tuple<float, float> calculatedDimensions = _thumbnailer.SetDimensions(width, ref imageWidth, ref imageHeight);
 
             //assert
             //expected height = 50, expected width = 100
@@ -107,7 +123,7 @@ namespace ImageThumbnailCreator.Tests
             float imageHeight = 1000;
 
             //act
-            Tuple<float, float> calculatedDimensions = _jpegThumbnailer.SetDimensions(width, ref imageWidth, ref imageHeight);
+            Tuple<float, float> calculatedDimensions = _thumbnailer.SetDimensions(width, ref imageWidth, ref imageHeight);
 
             //assert
             //expected height = 100, expected width = 200
@@ -124,7 +140,7 @@ namespace ImageThumbnailCreator.Tests
             float imageHeight = 500;
 
             //act
-            Tuple<float, float> calculatedDimensions = _jpegThumbnailer.SetDimensions(width, ref imageWidth, ref imageHeight);
+            Tuple<float, float> calculatedDimensions = _thumbnailer.SetDimensions(width, ref imageWidth, ref imageHeight);
 
             //assert
             //expected height = 100, expected width = 100
@@ -145,7 +161,7 @@ namespace ImageThumbnailCreator.Tests
             }
 
             //act
-            RotateFlipType rotationFlipType = _jpegThumbnailer.OrientUpright(propertyIdList, srcImage);
+            RotateFlipType rotationFlipType = _thumbnailer.OrientUpright(propertyIdList, srcImage);
 
             //assert
             Assert.AreEqual(rotationFlipType, RotateFlipType.Rotate180FlipXY);
