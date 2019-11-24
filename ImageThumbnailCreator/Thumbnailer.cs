@@ -47,18 +47,19 @@ namespace ImageThumbnailCreator
             }
 
             Bitmap thumbnail;
+            //Image thumbnail;
 
             try
             {
                 //read the bytes
-                Bitmap image = new Bitmap(fullImagePath);
-                var srcImage = Image.FromFile(fullImagePath);
+                Bitmap srcImage = new Bitmap(fullImagePath);
+                //var srcImage = Image.FromFile(fullImagePath);
 
                 //Image image = Image.FromFile(imageFolder + fileName);
                 float imageWidth = srcImage.Width;
                 float imageHeight = srcImage.Height;
 
-                if(width > imageWidth)
+                if (width > imageWidth)
                 {
                     throw new Exception("Thumbnail width can not be greater than the original image width.");
                 }
@@ -78,12 +79,14 @@ namespace ImageThumbnailCreator
                 var newHeight = (int)dimensions.Item1;
                 thumbnail = new Bitmap(newWidth, newHeight);
                 var graphics = Graphics.FromImage(thumbnail);
+                //var graphics = Graphics.FromImage(srcImage);
 
                 graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 graphics.CompositingQuality = CompositingQuality.HighQuality;
                 graphics.RotateTransform(0);
+                //graphics.CompositingQuality = CompositingQuality.HighSpeed;
 
                 // Now calculate the X,Y position of the upper-left corner 
                 // (one of these will always be zero)
@@ -96,14 +99,29 @@ namespace ImageThumbnailCreator
                         GraphicsUnit.Pixel);
 
                 thumbnail.RotateFlip(rotationFlipType);
-
-                //Save the thumbnail to the file system.
-                string thumbPath = SaveThumbnail(thumbnail, imageFolder, thumbnailFileName);
+                string thumbPath;
+                using (thumbnail)
+                {
+                    //Save the thumbnail to the file system.
+                    thumbPath = SaveThumbnail(thumbnail, imageFolder, thumbnailFileName);
+                }
 
                 //clean up
                 srcImage.Dispose();
                 thumbnail.Dispose();
                 graphics.Dispose();
+
+                ////TODO: Remove the original uncompressed thumbnail
+                //DirectoryInfo di = new DirectoryInfo(imageFolder);
+
+                //FileInfo uncompressedThumbnail = di.GetFiles()
+                //    .Where(f => f.Name.Equals($"thumb_{ thumbnailFileName}"))
+                //    .FirstOrDefault();
+
+                //if (uncompressedThumbnail != null && uncompressedThumbnail.Exists)
+                //{
+                //    uncompressedThumbnail.Delete();
+                //}
 
                 return thumbPath;
             }
@@ -207,6 +225,7 @@ namespace ImageThumbnailCreator
         /// <param name="imagePath"></param>
         /// <param name="thumbnailFileName"></param>
         public string SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName)
+        //public string SaveThumbnail(Image thumbnail, string imagePath, string thumbnailFileName)
         {
             if (thumbnail == null) throw new ArgumentNullException(nameof(thumbnail));
             if (string.IsNullOrEmpty(imagePath)) throw new ArgumentNullException(nameof(imagePath));
@@ -214,8 +233,48 @@ namespace ImageThumbnailCreator
 
             try
             {
+                ImageCodecInfo myImageCodecInfo;
+                System.Drawing.Imaging.Encoder myEncoder;
+                EncoderParameter myEncoderParameter;
+                EncoderParameters myEncoderParameters;
+
                 string thumbPath = Path.Combine(imagePath, $"thumb_{thumbnailFileName}");
-                thumbnail.Save(thumbPath);
+
+                using (thumbnail)
+                {
+                    thumbnail.Save(thumbPath); //we have to save the newly created file to the file system for the next step where we use an encoder to compress the image
+                }
+
+                thumbnail.Dispose();
+
+                Bitmap compressedThumbnail = new Bitmap(thumbPath);
+
+                myImageCodecInfo = GetEncoderInfo("image/jpeg");
+
+                myEncoder = System.Drawing.Imaging.Encoder.Quality;
+
+                myEncoderParameters = new EncoderParameters(1);
+
+                myEncoderParameter = new EncoderParameter(myEncoder, 85L); //compress the image to decrease the file size
+
+                myEncoderParameters.Param[0] = myEncoderParameter;
+
+                string newThumbPath = thumbPath.Split('.').First().ToString();
+
+                compressedThumbnail.Save($"{newThumbPath}_x.jpg", myImageCodecInfo, myEncoderParameters);
+
+                compressedThumbnail.Dispose();
+                ////TODO: Remove the original uncompressed thumbnail
+                DirectoryInfo di = new DirectoryInfo(imagePath);
+
+                FileInfo uncompressedThumbnail = di.GetFiles()
+                    .Where(f => f.Name.Equals($"thumb_{ thumbnailFileName}"))
+                    .FirstOrDefault();
+                if (uncompressedThumbnail != null && uncompressedThumbnail.Exists)
+                {
+                    uncompressedThumbnail.Delete();
+                }
+
                 return thumbPath;
             }
             catch (Exception ex)
@@ -273,6 +332,20 @@ namespace ImageThumbnailCreator
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+
+        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        {
+            int j;
+            ImageCodecInfo[] encoders;
+            encoders = ImageCodecInfo.GetImageEncoders();
+            for (j = 0; j < encoders.Length; ++j)
+            {
+                if (encoders[j].MimeType == mimeType)
+                    return encoders[j];
+            }
+            return null;
         }
     }
 }
