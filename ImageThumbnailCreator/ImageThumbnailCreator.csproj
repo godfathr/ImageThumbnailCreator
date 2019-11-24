@@ -13,8 +13,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseUrl>https://github.com/godfathr/ImageThumbnailCreator/blob/master/LICENSE</PackageLicenseUrl>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <PackageReleaseNotes>Added tests for PNG, GIF, TIF and BMP image formats. Added validation that prevents upsizing. Removed validation that would break the resizing if the property list had 0 items.</PackageReleaseNotes>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <PackageReleaseNotes>Added optional JPEG compression to ensure thumbnail images don't end up being larger in disk size than the original uploaded image.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
