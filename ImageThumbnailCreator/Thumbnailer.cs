@@ -103,25 +103,13 @@ namespace ImageThumbnailCreator
                 using (thumbnail)
                 {
                     //Save the thumbnail to the file system.
-                    thumbPath = SaveThumbnail(thumbnail, imageFolder, thumbnailFileName);
+                    thumbPath = SaveThumbnail(thumbnail, imageFolder, thumbnailFileName); //TODO: Add parameter for compression level (type of long)
                 }
 
                 //clean up
                 srcImage.Dispose();
                 thumbnail.Dispose();
                 graphics.Dispose();
-
-                ////TODO: Remove the original uncompressed thumbnail
-                //DirectoryInfo di = new DirectoryInfo(imageFolder);
-
-                //FileInfo uncompressedThumbnail = di.GetFiles()
-                //    .Where(f => f.Name.Equals($"thumb_{ thumbnailFileName}"))
-                //    .FirstOrDefault();
-
-                //if (uncompressedThumbnail != null && uncompressedThumbnail.Exists)
-                //{
-                //    uncompressedThumbnail.Delete();
-                //}
 
                 return thumbPath;
             }
@@ -255,16 +243,19 @@ namespace ImageThumbnailCreator
 
                 myEncoderParameters = new EncoderParameters(1);
 
+                //TODO: Make the compression amount a parameter
                 myEncoderParameter = new EncoderParameter(myEncoder, 85L); //compress the image to decrease the file size
 
                 myEncoderParameters.Param[0] = myEncoderParameter;
 
                 string newThumbPath = thumbPath.Split('.').First().ToString();
 
+                //TODO: find a better way to name this file
                 compressedThumbnail.Save($"{newThumbPath}_x.jpg", myImageCodecInfo, myEncoderParameters);
 
                 compressedThumbnail.Dispose();
-                ////TODO: Remove the original uncompressed thumbnail
+                
+                //Remove the original uncompressed thumbnail
                 DirectoryInfo di = new DirectoryInfo(imagePath);
 
                 FileInfo uncompressedThumbnail = di.GetFiles()
