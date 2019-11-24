@@ -9,6 +9,6 @@ namespace ImageThumbnailCreator.Interfaces
 
         string SaveOriginal(string imageFolder, HttpPostedFileBase photo); //the photo should be an HttpPostedFileBase
 
-        string SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName); //TODO: Add compression amount as parameter (type of long)
+        string SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName, long compressionLevel);
     }
 }

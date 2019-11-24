@@ -36,7 +36,7 @@ namespace ImageThumbnailCreator
         /// <param name="imageFolder"></param>
         /// <param name="fullImagePath"></param>
         /// <returns></returns>
-        public string Create(float width, string imageFolder, string fullImagePath)
+        public string Create(float width, string imageFolder, string fullImagePath, long compressionLevel = 85L)
         {
             if (width < 1) throw new ArgumentException($"The width parameter must be greater than 0.");
             if (string.IsNullOrEmpty(imageFolder)) throw new ArgumentNullException(nameof(imageFolder));
@@ -103,7 +103,7 @@ namespace ImageThumbnailCreator
                 using (thumbnail)
                 {
                     //Save the thumbnail to the file system.
-                    thumbPath = SaveThumbnail(thumbnail, imageFolder, thumbnailFileName); //TODO: Add parameter for compression level (type of long)
+                    thumbPath = SaveThumbnail(thumbnail, imageFolder, thumbnailFileName, compressionLevel);
                 }
 
                 //clean up
@@ -212,7 +212,8 @@ namespace ImageThumbnailCreator
         /// <param name="thumbnail"></param>
         /// <param name="imagePath"></param>
         /// <param name="thumbnailFileName"></param>
-        public string SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName)
+        /// <param name="compressionLevel"></param>
+        public string SaveThumbnail(Bitmap thumbnail, string imagePath, string thumbnailFileName, long compressionLevel = 85L)
         //public string SaveThumbnail(Image thumbnail, string imagePath, string thumbnailFileName)
         {
             if (thumbnail == null) throw new ArgumentNullException(nameof(thumbnail));
@@ -243,19 +244,17 @@ namespace ImageThumbnailCreator
 
                 myEncoderParameters = new EncoderParameters(1);
 
-                //TODO: Make the compression amount a parameter
-                myEncoderParameter = new EncoderParameter(myEncoder, 85L); //compress the image to decrease the file size
+                myEncoderParameter = new EncoderParameter(myEncoder, compressionLevel); //compress the image to decrease the file size
 
                 myEncoderParameters.Param[0] = myEncoderParameter;
 
                 string newThumbPath = thumbPath.Split('.').First().ToString();
 
-                //TODO: find a better way to name this file
-                compressedThumbnail.Save($"{newThumbPath}_x.jpg", myImageCodecInfo, myEncoderParameters);
+                compressedThumbnail.Save($"{newThumbPath}_compressed.jpg", myImageCodecInfo, myEncoderParameters);
 
                 compressedThumbnail.Dispose();
                 
-                //Remove the original uncompressed thumbnail
+                //Remove the original uncompressed thumbnail since we only needed it on the file system instead of in memory
                 DirectoryInfo di = new DirectoryInfo(imagePath);
 
                 FileInfo uncompressedThumbnail = di.GetFiles()

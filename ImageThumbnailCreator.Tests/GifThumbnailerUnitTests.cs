@@ -17,7 +17,6 @@ namespace ImageThumbnailCreator.Tests
         [TestInitialize]
         public void Setup()
         {
-            //TODO: Add any setup steps here
             _thumbnailer.CheckAndCreateDirectory(ThumbnailFolder);
         }
 
