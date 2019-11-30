@@ -7,13 +7,36 @@ Excellent addition for custom blog sites or any kind of site that allows image f
 
 Example MVC application is located at https://github.com/godfathr/ThumbnailWebExample
 
-#Version 2.0.0 Updates
+## Version 2.0.1 Updates
+Added optional image compression parameter. Max value is 100. Min value is 0. Default value is 85. Parameter type is `long`.
+
+No updates to existing code are needed. **Default value is set in NuGet package**
+```
+public string Create(float width, string imageFolder, string fullImagePath, long compressionLevel = 85L)
+{
+    //method content here...
+}
+```
+
+```
+private Thumbnailer _thumbnailer = new Thumbnailer();
+private string ThumbnailFolder = ConfigurationSettings.AppSettings["TestDirectory"];
+
+_thumbnailer.Create(100, ThumbnailFolder, originalFileLocation, 50L);
+```
+
+OR if a compression value is not provided, the default 85L will be used
+```
+_thumbnailer.Create(100, ThumbnailFolder, originalFileLocation);
+```
+
+## Version 2.0.0 Updates
 Renamed "JpegThumbnailer" to "Thumbnailer".
 Added tests for PNG, GIF, TIF and BMP image formats. 
 Added validation that prevents upsizing. 
 Removed validation that would break the resizing if the property list had 0 items. 
 
-#Version 1.0.2 Updates 
+## Version 1.0.2 Updates 
 Added unit tests.
 
 Added parameter checking with meaningful exceptions.
