@@ -22,7 +22,7 @@ public string Create(float width, string imageFolder, string fullImagePath, long
 private Thumbnailer _thumbnailer = new Thumbnailer();
 private string ThumbnailFolder = ConfigurationSettings.AppSettings["TestDirectory"];
 
-_thumbnailer.Create(100, ThumbnailFolder, originalFileLocation, 50L);
+_thumbnailer.Create(100, ThumbnailFolder, originalFileLocation, 50L); //With specified compression level of 50
 ```
 
 OR if a compression value is not provided, the default 85L will be used
