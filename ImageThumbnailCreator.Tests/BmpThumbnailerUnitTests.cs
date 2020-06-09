@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace ImageThumbnailCreator.Tests
 {
@@ -12,7 +12,7 @@ namespace ImageThumbnailCreator.Tests
     public class BmpThumbnailerUnitTests
     {
         private Thumbnailer _thumbnailer = new Thumbnailer();
-        private string ThumbnailFolder = ConfigurationSettings.AppSettings["TestDirectory"];
+        private string ThumbnailFolder = ConfigurationManager.AppSettings["TestDirectory"];
 
         [TestInitialize]
         public void Setup()

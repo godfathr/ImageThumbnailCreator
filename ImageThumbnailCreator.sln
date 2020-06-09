@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+VisualStudioVersion = 15.0.28307.1145
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageThumbnailCreator", "ImageThumbnailCreator\ImageThumbnailCreator.csproj", "{28E07A03-8C53-4D15-89EC-B1184F72A09A}"
 EndProject
