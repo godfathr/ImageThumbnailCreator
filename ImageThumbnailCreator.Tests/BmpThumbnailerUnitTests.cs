@@ -25,7 +25,7 @@ namespace ImageThumbnailCreator.Tests
         {
             //setup
 
-            //act            
+            //act
             var createdFolder = Directory.Exists(ThumbnailFolder);
 
             //assert

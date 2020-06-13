@@ -47,15 +47,12 @@ namespace ImageThumbnailCreator
             }
 
             Bitmap thumbnail;
-            //Image thumbnail;
 
             try
             {
                 //read the bytes
                 Bitmap srcImage = new Bitmap(fullImagePath);
-                //var srcImage = Image.FromFile(fullImagePath);
 
-                //Image image = Image.FromFile(imageFolder + fileName);
                 float imageWidth = srcImage.Width;
                 float imageHeight = srcImage.Height;
 
@@ -79,7 +76,6 @@ namespace ImageThumbnailCreator
                 var newHeight = (int)dimensions.Item1;
                 thumbnail = new Bitmap(newWidth, newHeight);
                 var graphics = Graphics.FromImage(thumbnail);
-                //var graphics = Graphics.FromImage(srcImage);
 
                 graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
