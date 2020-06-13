@@ -7,6 +7,33 @@ Excellent addition for custom blog sites or any kind of site that allows image f
 
 Example MVC application is located at https://github.com/godfathr/ThumbnailWebExample
 
+## Version 3.0.0 Updates
+Changed .NET framework to 4.8. Updated license from Apache to MIT. Updated README.md.
+
+No updates to existing code are needed. **Default value is set in NuGet package**
+
+### How to use (example)
+```
+private Thumbnailer _thumbnailer = new Thumbnailer();
+private string ThumbnailFolder = ConfigurationManager.AppSettings["TestDirectory"];
+```
+
+```
+//Save the original photo at its original resolution
+HttpPostedFileBase photo = Request.Files[0];
+var originalImage = thumbnailer.SaveOriginal(uploadPath, photo);
+```
+
+```
+//With specified compression level of 50
+string thumbnailPath = _thumbnailer.Create(100, ThumbnailFolder, originalFileLocation, 50L); 
+```
+
+OR if a compression value is not provided, the default 85L will be used
+```
+string thumbnailPath = _thumbnailer.Create(100, ThumbnailFolder, originalFileLocation);
+```
+
 ## Version 2.0.1 Updates
 Added optional image compression parameter. Max value is 100. Min value is 0. Default value is 85. Parameter type is `long`.
 
