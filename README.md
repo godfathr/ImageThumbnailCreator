@@ -1,3 +1,8 @@
+# Warning
+**This NuGet package will no longer be updated as of the latest commit.**
+
+**A .NET Core Version will be available in lieu of the full ASP.NET Framework**
+
 # ImageThumbnailCreator
 Create image thumbnails from uploaded image files to help downsize large resolution images that need to be displayed on your website in a smaller resolution.
 
